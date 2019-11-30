@@ -1,0 +1,137 @@
+{% extends "visitorapp/base.html" %}
+{% block content %}
+<style type="text/css">
+    .checkin-form {
+        width: 340px;
+        margin: 30px auto;
+    }
+
+    .checkin-form form {
+        margin-bottom: 15px;
+        background: #f7f7f7;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+
+    .checkin-form h2 {
+        margin: 0 0 15px;
+    }
+
+    .checkin-form .hint-text {
+        color: #777;
+        padding-bottom: 15px;
+        text-align: center;
+    }
+
+    .form-control,
+    .btn {
+        min-height: 38px;
+        border-radius: 2px;
+    }
+
+    .checkin-btn {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .or-seperator {
+        margin: 20px 0 10px;
+        text-align: center;
+        border-top: 1px solid #ccc;
+    }
+
+    .or-seperator i {
+        padding: 0 10px;
+        background: #f7f7f7;
+        position: relative;
+        top: -11px;
+        z-index: 1;
+    }
+
+    .social-btn .btn {
+        margin: 10px 0;
+        font-size: 15px;
+        text-align: left;
+        line-height: 24px;
+    }
+
+    .social-btn .btn i {
+        float: left;
+        margin: 4px 15px 0 5px;
+        min-width: 15px;
+    }
+
+    .input-group-addon .fa {
+        font-size: 18px;
+    }
+</style>
+<div class="checkin-form">
+
+    <form method="post" id="checkin">
+        {% csrf_token %}
+        <h2 class="text-center">Check in</h2>
+
+        <div class="or-seperator"></div>
+        <div class="form-group">
+            <div class="input-group">
+                <label for="id_name"></label> <input class="form-control" type="text" name="name"
+                    placeholder="Full Name" required id="id_name" /> </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <label for="id_email"></label> <input class="form-control" type="email" name="email" placeholder="Email"
+                    required id="id_email" /> </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <label for="id_phone"></label> <input class="form-control" type="text" name="phone" required
+                    placeholder="Contact Number" required id="id_phone" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Select The Host</label>
+            <select id="id_host" class="form-control">
+                {% for host in hosts%}
+                <option value="{{ host.host_email }}">{{ host.host_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block login-btn">Check in</button>
+        </div>
+        {{ form.errors }}
+
+    </form>
+
+
+</div>
+<script type="text/javascript">
+    $(document).on('submit', '#checkin', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/',
+            data: {
+                id_name: $('#id_name').val(),
+                id_email: $('#id_email').val(),
+                id_phone: $('#id_phone').val(),
+                id_host: $('#id_host').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (response) {
+                if (response == 'Success') {
+                    window.location.href = "/";
+                    alert('Registered successfully')
+                } else {
+                    window.location.href = "/";
+                }
+            },
+            error: function (xhr) {
+                alert(`An erroe occcured: ` + xhr.status + " " + xhr.statusText + " " + xhr
+                    .responseText);
+            }
+        })
+    })
+
+</script>
+{% endblock content %}

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'visitorapp',
 ]
 
 MIDDLEWARE = [
@@ -105,16 +106,25 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'gaurav.17je002778@ee.ism.ac.in'
+SERVER_EMAIL = 'gaurav.17je002778@ee.ism.ac.in'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'gaurav.17je002778@ee.ism.ac.in'
+EMAIL_HOST_PASSWORD = 'gauravhero1'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
