@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from config import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +25,7 @@ SECRET_KEY = 'rd(_9isperiuj&x@11m6cr0(5y=-aso!67z_=_r1)!0^m0fop$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,10 +121,10 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'gaurav.17je002778@ee.ism.ac.in'
-SERVER_EMAIL = 'gaurav.17je002778@ee.ism.ac.in'
+DEFAULT_FROM_EMAIL = email
+SERVER_EMAIL = email
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'gaurav.17je002778@ee.ism.ac.in'
-EMAIL_HOST_PASSWORD = 'gauravhero1'
+EMAIL_HOST_USER = email
+EMAIL_HOST_PASSWORD = password
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -11,7 +11,8 @@ from django.contrib.auth import login,authenticate
 from .models import *
 from django.core.mail import send_mail,EmailMessage
 from datetime import datetime
-
+from config import *
+from twilio.rest import Client
 def home(request):
     if request.method=='POST':
         name=request.POST.get('id_name')
@@ -40,6 +41,15 @@ def home(request):
             message='Customer '+name+' wants to meet you his details are: \n'+'name-'+name+'\nemail-'+email+'\ncheckin time-'+str(dt)
             temail=EmailMessage(subject,message,to=[h.host_email])
             temail.send()
+            client=Client(account_sid,auth_token)
+            try:
+                mssg=client.messages.create(
+                    from_='+12568278416',
+                    body=message,
+                    to=str(h.host_phone)
+                    )
+            except Exception as e:
+                print(e)
             return redirect('/')
         else:
             user=User.objects.create_user(username=email,password=email,email=email)
@@ -61,6 +71,15 @@ def home(request):
             message='Customer '+name+' has wants to meet you his details are: \n'+'name-'+name+'\nemail-'+email+'\ncheckin time-'+str(dt)
             temail=EmailMessage(subject,message,to=[h.host_email])
             temail.send()
+            client=Client(account_sid,auth_token)
+            try:
+                mssg=client.messages.create(
+                    from_='+12568278416',
+                    body=message,
+                    to=str(h.host_phone)
+                    )
+            except Exception as e:
+                print(e)
             return redirect('/')
         return HttpResponse('success')
     else:
