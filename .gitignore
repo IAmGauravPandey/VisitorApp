@@ -5,3 +5,4 @@ myvenv
 __pycache__
 .DS_Store
 .vscode
+config.py
