@@ -58,7 +58,7 @@ def home(request):
             up=UserProfile.objects.get(user=user)
             up.phone=phone
             up.save()
-            h=Host.objects.get(host_name=host)
+            h=Host.objects.get(host_email=host)
             now=datetime.now()
             visit=Visit.objects.create(user=request.user,host_name=h.host_name,host_email=h.host_email,host_phone=h.host_phone,checkin=now,checkout=now)
             
