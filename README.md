@@ -20,3 +20,5 @@ When the visitor checks out he will get mail regarding his visit.
 6. Run the server `python manage.py runserver`
 
 By visiting the admin page(localhost/admin) host details can be added which is used by visitor during checkin.
+
+## This app is under maintenance.
