@@ -15,13 +15,15 @@ from config import *
 from twilio.rest import Client
 def home(request):
     if request.method=='POST':
-        name=request.POST.get('id_name')
-        email=request.POST.get('id_email')
-        phone=request.POST.get('id_phone')
-        host=request.POST.get('id_host')
+        name=request.POST.get('id_name', None)
+        email=request.POST.get('id_email', None)
+        phone=request.POST.get('id_phone', None)
+        host=request.POST.get('id_host', None)
+        
+        if not (name and email and phone and host):
+            return HttpResponse('failed')
 
         host=str(host)
-        print(name,email,phone,host)
         if User.objects.filter(username=email).exists():
             user=User.objects.get(username=email)
             login(request,user)
@@ -49,7 +51,7 @@ def home(request):
                     to=str(h.host_phone)
                     )
             except Exception as e:
-                print(e)
+                pass
             return redirect('/')
         else:
             user=User.objects.create_user(username=email,password=email,email=email)
@@ -79,13 +81,12 @@ def home(request):
                     to=str(h.host_phone)
                     )
             except Exception as e:
-                print(e)
+                pass
             return redirect('/')
         return HttpResponse('success')
     else:
         if request.user.is_authenticated:
             visit=Visit.objects.filter(user=request.user).order_by('-checkin')
-            print(visit[0].checkin)
             now=visit[0].checkin
             dt= now.strftime("%d/%m/%Y %H:%M:%S")
             args={'host_name':visit[0].host_name,'host_phone':visit[0].host_phone,'host_email':visit[0].host_email,'checkin':visit[0].checkin}
@@ -113,6 +114,5 @@ def checkout(request):
     v=Visit.objects.get(id=v)
     v.checkout=now
     v.save()
-    print(v)
     auth.logout(request)
     return redirect('/')
